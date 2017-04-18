@@ -43,6 +43,13 @@ public class LearningGraph {
 		System.out.println("Label: " + vertexList[index].label);
 	}
 
+	
+	public void getAllAdjVertex(int v){
+		for(int col = 0; col<nVerts; col++){
+			if(matrix[v][col])
+				displayVertex(col);
+		}
+	}
 	/*
 	 * DFS - stacks
 	 * begin at vertex 0
@@ -129,7 +136,7 @@ public class LearningGraph {
 		obj.addEdge(2, 4);
 		obj.addEdge(3, 4);
 		
-		System.out.println(obj.getAdjVertex(0));
+		obj.getAllAdjVertex(0);
 		System.out.println("---------dfs-------");
 		obj.dfs();
 		System.out.println("---------bfs-------");
