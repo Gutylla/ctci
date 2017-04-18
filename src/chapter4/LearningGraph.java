@@ -13,7 +13,7 @@ import java.util.Stack;
  */
 public class LearningGraph {
 
-	int maxVerts = 5;
+	int maxVerts = 4;
 	Vertex[] vertexList;
 	boolean[][] matrix;
 	int nVerts; // current number of vertices
@@ -36,22 +36,36 @@ public class LearningGraph {
 
 	public void addEdge(int start, int end){
 		matrix[start][end] = true;
-		matrix[end][start] = true;
+		//matrix[end][start] = true;
 	}
 
 	public void displayVertex(int index){
 		System.out.println("Label: " + vertexList[index].label);
 	}
 
-	
+
 	public void getAllAdjVertex(int v){
 		for(int col = 0; col<nVerts; col++){
 			if(matrix[v][col])
 				displayVertex(col);
 		}
 	}
+
+	public int getAdjVertex(int v){
+		for(int col = 0; col<nVerts; col++){
+			if(matrix[v][col] && !vertexList[col].wasVisited) return col; 
+		}
+		return -1;
+	}
+
+	public void reset(){
+		for(int i=0; i<nVerts; i++){
+			vertexList[i].wasVisited = false;
+		}
+	}
+
 	/*
-	 * DFS - stacks
+	 * DFS - stacks, BFS - queues
 	 * begin at vertex 0
 	 * RULE 1:
 	 * 1. Visit the vertex
@@ -62,20 +76,6 @@ public class LearningGraph {
 	 * RULE 3:
 	 * if can't follow RULE1 and RULE2, otherwise DONE
 	 */
-
-	public int getAdjVertex(int v){
-		for(int col = 0; col<nVerts; col++){
-			if(matrix[v][col] && !vertexList[col].wasVisited) return col; 
-		}
-		return -1;
-	}
-	
-	public void reset(){
-		for(int i=0; i<nVerts; i++){
-			vertexList[i].wasVisited = false;
-		}
-	}
-
 	public void dfs(){
 		vertexList[0].wasVisited = true;
 		displayVertex(0);
@@ -85,7 +85,7 @@ public class LearningGraph {
 
 		while(!stack.empty()){
 			int adjV = getAdjVertex((int) stack.peek());
-			
+
 			if(adjV == -1){
 				stack.pop();
 			}else{
@@ -94,10 +94,10 @@ public class LearningGraph {
 				stack.push(adjV);
 			}
 		}
-		
+
 		reset();
 	}
-	
+
 	public void bfs(){
 		vertexList[0].wasVisited = true;
 		displayVertex(0);
@@ -107,7 +107,7 @@ public class LearningGraph {
 
 		while(!queue.isEmpty()){
 			int adjV = getAdjVertex((int) queue.peek());
-			
+
 			if(adjV == -1){
 				queue.remove();
 			}else{
@@ -116,32 +116,60 @@ public class LearningGraph {
 				queue.add(adjV);
 			}
 		}
-		
+
 		reset();
+	}
+
+	//Warshall's algorithm: to get transitive closure from adjacency matrix
+	/*
+	 * Idea: If you can get from vertex L to vertex M, and you can get from M to N, then you can get from L to N.
+	 * 
+	 */
+	public void transitiveClosure(){
+		boolean[][] closure = new boolean[nVerts][nVerts];
+		boolean[][] prevClosure = matrix;
+		for(int k = 0; k < nVerts; k++){
+			for(int row = 0; row < nVerts; row++){
+				for(int col = 0; col < nVerts; col++){
+					closure[row][col] = prevClosure[row][col] || (prevClosure[row][k] && prevClosure[k][col]);
+				}
+			}
+			prevClosure = closure;
+		}
+		printMatrix(prevClosure);
+	}
+	
+	public void printMatrix(boolean[][] mat){
+		for (int i = 0; i < mat.length; i++) {
+		    for (int j = 0; j < mat[i].length; j++) {
+		        System.out.print((mat[i][j]?1:0) + "   ");
+		    }
+		    System.out.println();
+		}
+		System.out.println("----------------------");
 	}
 
 	public static void main(String[] args) {
 		LearningGraph obj = new LearningGraph();
-		
-		obj.addVertex('a');
-		obj.addVertex('b');
-		obj.addVertex('c');
-		obj.addVertex('d');
-		obj.addVertex('e');
-		
+
+		obj.addVertex('a'); //0
+		obj.addVertex('b'); //1
+		obj.addVertex('c'); //2
+		obj.addVertex('d'); //3
+
 		obj.addEdge(0, 1);
-		obj.addEdge(0, 3);
 		obj.addEdge(1, 2);
-		obj.addEdge(1, 3);
-		obj.addEdge(2, 4);
-		obj.addEdge(3, 4);
-		
-		obj.getAllAdjVertex(0);
-		System.out.println("---------dfs-------");
-		obj.dfs();
-		System.out.println("---------bfs-------");
-		obj.bfs();
-		
+		obj.addEdge(2, 0);
+		obj.addEdge(2, 3);
+
+		obj.transitiveClosure();
+		//obj.displayVertex(0);
+//		obj.getAllAdjVertex(0);
+//		System.out.println("---------dfs-------");
+//		obj.dfs();
+//		System.out.println("---------bfs-------");
+//		obj.bfs();
+
 	}
 
 }
