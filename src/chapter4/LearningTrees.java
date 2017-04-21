@@ -5,6 +5,7 @@ package chapter4;
 
 /**
  * @author TriptiAshishUpadhyay
+ *	implementation of BST
  *
  */
 public class LearningTrees {
@@ -39,12 +40,23 @@ public class LearningTrees {
 					current = parent.rightChild;
 					if(current == null){
 						parent.rightChild = temp;
-						//leftRotation(); //perform left rotation if required
 						return;
 					}
 				}
 			}
 		}
+	}
+
+	//Problem 4.3
+	public Node createBST(int[] data, int start, int end){
+		if(start > end)
+			return null; 
+		int mid = (start+end)/2;
+		Node tempNode = new Node(data[mid]);
+		tempNode.leftChild = createBST(data, start, mid-1);
+		tempNode.rightChild = createBST(data, mid+1, end);
+		return tempNode;
+
 	}
 
 	public void leftRotation(){
@@ -174,29 +186,41 @@ public class LearningTrees {
 		}
 	}
 
-	public void AVLrotation(){
-		Node current = root;
+	public void balancingFactor(){
 		int balanceFactor = 0;
 		if(null != root)
 			balanceFactor = Math.abs(findHeight(root.leftChild) - findHeight(root.rightChild));
-		while(balanceFactor != 1){
-			//start rotating
-			balanceFactor = Math.abs(findHeight(root.leftChild) - findHeight(root.rightChild));
-		}
+		if(balanceFactor != 1)
+			System.out.println("not balanced");
+		else
+			System.out.println("balanced !! ");
+		return;
 	}
 
 	public static void main(String[] args) {
 		LearningTrees lt = new LearningTrees();
-		lt.insert(50);
-		lt.insert(35);
-		lt.insert(38);
-		lt.insert(90);
-		lt.insert(91);
-		lt.insert(92);
-		lt.insert(94);
-		lt.insert(95);
-		
-		lt.delete(38);
+
+		int[] arr = {1,2,3,4,5,6,7};
+		lt.root = lt.createBST(arr, 0, arr.length-1);
+		lt.inorderTraversal(lt.root);
+		//		lt.insert(50);
+		//		lt.insert(35);
+		//		lt.insert(38);
+		//		lt.insert(90);
+		//		lt.insert(91);
+		//		lt.insert(92);
+		//		lt.insert(94);
+		//		lt.insert(95);
+		//		lt.insert(40);
+		//		lt.insert(45);
+		/*
+		 *					50
+		 *			35					90
+		 *				38 					91
+		 *					40					92
+		 *						45					94
+		 *												95
+		 */
 
 		//		System.out.println(lt.search(30));
 		//		System.out.println("-----------------");
@@ -210,10 +234,9 @@ public class LearningTrees {
 		//		System.out.println("-----------------");
 		//		System.out.println("max value: " + lt.max());
 		//		System.out.println("-----------------");
-		lt.delete(38);
-		lt.inorderTraversal(lt.root);
+		//		lt.inorderTraversal(lt.root);
 
-		System.out.println(lt.findHeight(lt.root.rightChild.leftChild));
+		//		lt.balancingFactor();
 	}
 
 }
@@ -223,4 +246,15 @@ class Node{
 	Node leftChild;
 	Node rightChild;
 
+	public Node(int data){
+		this.data = data;
+		this.leftChild = null;
+		this.rightChild = null;
+	}
+
+	public Node(){
+		this.data = 0;
+		this.leftChild = null;
+		this.rightChild = null;
+	}
 }
