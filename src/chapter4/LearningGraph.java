@@ -16,16 +16,25 @@ public class LearningGraph {
 	int maxVerts = 4;
 	Vertex[] vertexList;
 	boolean[][] matrix;
+	int[][] weightedMatrix;
 	int nVerts; // current number of vertices
 
 	public LearningGraph(){
 		vertexList = new Vertex[maxVerts];
 		matrix = new boolean[maxVerts][maxVerts];
+		weightedMatrix = new int[maxVerts][maxVerts];
 		nVerts = 0;
 		//set adjacency
 		for(int row=0; row<maxVerts; row++){
 			for(int col=0; col<maxVerts; col++){
 				matrix[row][col] = false;
+			}
+		}
+		//set weights
+		for(int row=0; row<maxVerts; row++){
+			for(int col=0; col<maxVerts; col++){
+				if(row == col) weightedMatrix[row][col] = 0; // will remain 0 throughout
+				else weightedMatrix[row][col] = (int) Double.POSITIVE_INFINITY; // should be infinity
 			}
 		}
 	}
@@ -34,9 +43,10 @@ public class LearningGraph {
 		vertexList[nVerts++] = new Vertex(data);
 	}
 
-	public void addEdge(int start, int end){
+	public void addEdge(int start, int end, int weight){
 		matrix[start][end] = true;
 		//matrix[end][start] = true;
+		weightedMatrix[start][end] = weight;
 	}
 
 	public void displayVertex(int index){
@@ -138,13 +148,41 @@ public class LearningGraph {
 		}
 		printMatrix(prevClosure);
 	}
-	
+
+	public void shortestPath(){
+		int[][] closure = new int[nVerts][nVerts];
+		int[][] prevClosure = weightedMatrix;
+		for (int i = 0; i < prevClosure.length; i++) {
+			for (int j = 0; j < prevClosure[i].length; j++) {
+				System.out.print(prevClosure[i][j] + "   ");
+			}
+			System.out.println();
+		}
+		System.out.println("-------");
+		for(int k = 0; k < nVerts; k++){
+			for(int row = 0; row < nVerts; row++){
+				for(int col = 0; col < nVerts; col++){
+					if(row != col)
+						closure[row][col] = Math.min(prevClosure[row][col], 
+								prevClosure[row][k] + prevClosure[k][col]);
+				}
+			}
+			prevClosure = closure;
+		}
+		for (int i = 0; i < prevClosure.length; i++) {
+			for (int j = 0; j < prevClosure[i].length; j++) {
+				System.out.print(prevClosure[i][j] + "   ");
+			}
+			System.out.println();
+		}
+	}
+
 	public void printMatrix(boolean[][] mat){
 		for (int i = 0; i < mat.length; i++) {
-		    for (int j = 0; j < mat[i].length; j++) {
-		        System.out.print((mat[i][j]?1:0) + "   ");
-		    }
-		    System.out.println();
+			for (int j = 0; j < mat[i].length; j++) {
+				System.out.print((mat[i][j]?1:0) + "   ");
+			}
+			System.out.println();
 		}
 		System.out.println("----------------------");
 	}
@@ -157,18 +195,19 @@ public class LearningGraph {
 		obj.addVertex('c'); //2
 		obj.addVertex('d'); //3
 
-		obj.addEdge(0, 1);
-		obj.addEdge(1, 2);
-		obj.addEdge(2, 0);
-		obj.addEdge(2, 3);
+		obj.addEdge(1, 0, 2);
+		obj.addEdge(0, 2, 3);
+		obj.addEdge(3, 0, 6);
+		obj.addEdge(2, 3, 1);
+		obj.addEdge(2, 1, 7);
 
-		obj.transitiveClosure();
+		obj.shortestPath();
 		//obj.displayVertex(0);
-//		obj.getAllAdjVertex(0);
-//		System.out.println("---------dfs-------");
-//		obj.dfs();
-//		System.out.println("---------bfs-------");
-//		obj.bfs();
+		//		obj.getAllAdjVertex(0);
+		//		System.out.println("---------dfs-------");
+		//		obj.dfs();
+		//		System.out.println("---------bfs-------");
+		//		obj.bfs();
 
 	}
 

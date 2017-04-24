@@ -56,20 +56,6 @@ public class LearningTrees {
 		tempNode.leftChild = createBST(data, start, mid-1);
 		tempNode.rightChild = createBST(data, mid+1, end);
 		return tempNode;
-
-	}
-
-	public void leftRotation(){
-		Node curr = root;
-		if( null != curr ) {
-			int b = Math.abs(findHeight(curr.leftChild) - findHeight(curr.rightChild));
-			if(b > 1) {
-				curr.leftChild = curr;
-				curr = curr.rightChild;
-				return;
-			}
-			curr = curr.rightChild;
-		}
 	}
 
 	public Node search(int data){
