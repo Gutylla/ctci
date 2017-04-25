@@ -229,19 +229,36 @@ public class LearningTrees {
 	//Problem 4.4 4th Edition
 	HashMap<Integer, ArrayList<Integer>> hash = new HashMap<Integer, ArrayList<Integer>>();
 
-	public void nodesAtLevels(Node node, int level){
-		if(null == node) return;
-		ArrayList<Integer> list = hash.get(level);
-		if(list != null)
-			list.add(node.data);
-		else{
-			list = new ArrayList<Integer>();
-			list.add(node.data);
+	public HashMap<Integer, ArrayList<Integer>> nodesAtLevels(Node node, int level){
+		if(null != node) {
+			ArrayList<Integer> list = hash.get(level);
+			if(list != null)
+				list.add(node.data);
+			else{
+				list = new ArrayList<Integer>();
+				list.add(node.data);
+			}
+			hash.put(level, list);
+			if(level > 1){
+				nodesAtLevels(node.leftChild, level-1);
+				nodesAtLevels(node.rightChild, level-1);
+			}
 		}
-		hash.put(level, list);
-		if(level > 1){
-			nodesAtLevels(node.leftChild, level-1);
-			nodesAtLevels(node.rightChild, level-1);
+		return hash;
+	}
+
+	//Problem 4.9 6th edition
+	public void printPossibleInputs(){
+		int height = findHeight(root);
+		HashMap<Integer, ArrayList<Integer>> myhash = nodesAtLevels(root, height);
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+
+		while(height > 0){
+			arr.addAll(myhash.get(height));
+			height -= 1;
+		}
+		for(int i=0; i<arr.size(); i++){
+			System.out.println(arr.get(i));
 		}
 	}
 
@@ -252,12 +269,14 @@ public class LearningTrees {
 		//lt.root = lt.createBST(arr, 0, arr.length-1);
 		//lt.inorderTraversal(lt.root);
 
-		int[] input = {20,14,50,12,17,48,76,43,30,19,90};
+		int[] input = {20,14,50,12,17,48};
 		for(int i=0; i<input.length; i++)
 			lt.insert(input[i]);
 
-		for(int i=0; i<input.length; i++)
-			System.out.println(input[i]+": "+ lt.findNextNode(lt.search(input[i])));
+		lt.printPossibleInputs();
+
+		//		for(int i=0; i<input.length; i++)
+		//			System.out.println(input[i]+": "+ lt.findNextNode(lt.search(input[i])));
 		//lt.nodesAtLevels(lt.root, lt.findHeight(lt.root));
 		//		System.out.println(lt.search(30));
 		//		System.out.println("-----------------");
