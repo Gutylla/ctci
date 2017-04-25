@@ -3,6 +3,11 @@
  */
 package chapter4;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
+
 /**
  * @author TriptiAshishUpadhyay
  *	implementation of BST
@@ -17,29 +22,29 @@ public class LearningTrees {
 	}
 
 	public void insert(int data){
-		Node temp = new Node();
-		temp.data = data;
-		temp.leftChild = null;
-		temp.rightChild = null;
+		Node temp = new Node(data);
 		if(null == root){
+			temp.parent = null;
 			root = temp;
 		}
 		else{
 			Node current = root;
-			Node parent = null;
+			Node parentVar = null;
 			while(true){
-				parent = current;
+				parentVar = current;
 				if(data < current.data){
-					current = parent.leftChild;
+					current = parentVar.leftChild;
 					if(current == null){
-						parent.leftChild = temp;
+						temp.parent = parentVar;
+						parentVar.leftChild = temp;
 						return;
 					}
 				}
 				else {
-					current = parent.rightChild;
+					current = parentVar.rightChild;
 					if(current == null){
-						parent.rightChild = temp;
+						temp.parent = parentVar;
+						parentVar.rightChild = temp;
 						return;
 					}
 				}
@@ -47,7 +52,55 @@ public class LearningTrees {
 		}
 	}
 
-	//Problem 4.3
+	//Problem 4.5 4th Edition
+	public int findNextNode(int data){
+		Node node = search(data);
+		
+		if(node.parent != null){
+			if(node.parent.leftChild == node){
+				return node.parent.data;
+			}
+			else{
+				if(node.rightChild != null){
+					Node current = node.rightChild;
+					Node par = null;
+					while(current != null){
+						par = current;
+						current = current.leftChild;
+					}
+					return par.data;
+				}
+				else{
+					Node current = node;
+					Node grandPar = node.parent;
+					while(grandPar != null && grandPar.rightChild == current){
+						current = grandPar;
+						if(grandPar.parent == null)
+							return -1;
+						else
+							grandPar = grandPar.parent;
+					}
+					return grandPar.data;
+				}
+			}
+		}
+		else{
+			if(node.rightChild != null){
+				Node current = node.rightChild;
+				Node par = null;
+				while(current != null){
+					par = current;
+					current = current.leftChild;
+				}
+				return par.data;
+			}
+			else{
+				return -1;
+			}
+		}
+	}
+
+	//Problem 4.3 4th Edition
 	public Node createBST(int[] data, int start, int end){
 		if(start > end)
 			return null; 
@@ -183,31 +236,47 @@ public class LearningTrees {
 		return;
 	}
 
+	//Problem 4.4 4th Edition
+	HashMap<Integer, ArrayList<Integer>> hash = new HashMap<Integer, ArrayList<Integer>>();
+
+	public void nodesAtLevels(Node node, int level){
+		if(null == node) return;
+		ArrayList<Integer> list = hash.get(level);
+		if(list != null)
+			list.add(node.data);
+		else{
+			list = new ArrayList<Integer>();
+			list.add(node.data);
+		}
+		hash.put(level, list);
+		if(level > 1){
+			nodesAtLevels(node.leftChild, level-1);
+			nodesAtLevels(node.rightChild, level-1);
+		}
+	}
+
 	public static void main(String[] args) {
 		LearningTrees lt = new LearningTrees();
 
-		int[] arr = {1,2,3,4,5,6,7};
-		lt.root = lt.createBST(arr, 0, arr.length-1);
-		lt.inorderTraversal(lt.root);
-		//		lt.insert(50);
-		//		lt.insert(35);
-		//		lt.insert(38);
-		//		lt.insert(90);
-		//		lt.insert(91);
-		//		lt.insert(92);
-		//		lt.insert(94);
-		//		lt.insert(95);
-		//		lt.insert(40);
-		//		lt.insert(45);
-		/*
-		 *					50
-		 *			35					90
-		 *				38 					91
-		 *					40					92
-		 *						45					94
-		 *												95
-		 */
+		//int[] arr = {1,2,3,4,5,6,7};
+		//lt.root = lt.createBST(arr, 0, arr.length-1);
+		//lt.inorderTraversal(lt.root);
 
+		lt.insert(20);
+		lt.insert(14);
+		lt.insert(50);
+		lt.insert(12);
+		lt.insert(17);
+		lt.insert(48);
+		lt.insert(76);
+		lt.insert(43);
+		lt.insert(30);
+		lt.insert(19);
+		lt.insert(90);
+
+		lt.inorderTraversal(lt.root);
+		System.out.println("20: "+ lt.findNextNode(20));
+		//lt.nodesAtLevels(lt.root, lt.findHeight(lt.root));
 		//		System.out.println(lt.search(30));
 		//		System.out.println("-----------------");
 		//		lt.inorderTraversal(lt.root);
@@ -231,6 +300,7 @@ class Node{
 	int data;
 	Node leftChild;
 	Node rightChild;
+	Node parent;
 
 	public Node(int data){
 		this.data = data;
