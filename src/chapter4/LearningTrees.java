@@ -53,50 +53,40 @@ public class LearningTrees {
 	}
 
 	//Problem 4.5 4th Edition
-	public int findNextNode(int data){
-		Node node = search(data);
-		
-		if(node.parent != null){
-			if(node.parent.leftChild == node){
-				return node.parent.data;
+	public int findNextNode(Node node){
+		if(node.rightChild != null){
+			Node current = node.rightChild;
+			Node par = null;
+			while(current != null){
+				par = current;
+				current = current.leftChild;
 			}
-			else{
-				if(node.rightChild != null){
-					Node current = node.rightChild;
-					Node par = null;
-					while(current != null){
-						par = current;
-						current = current.leftChild;
-					}
-					return par.data;
-				}
-				else{
-					Node current = node;
-					Node grandPar = node.parent;
-					while(grandPar != null && grandPar.rightChild == current){
-						current = grandPar;
-						if(grandPar.parent == null)
-							return -1;
-						else
-							grandPar = grandPar.parent;
-					}
-					return grandPar.data;
-				}
-			}
+			return par.data;
 		}
 		else{
-			if(node.rightChild != null){
-				Node current = node.rightChild;
-				Node par = null;
-				while(current != null){
-					par = current;
-					current = current.leftChild;
+			if(node.parent != null){
+				if(node.parent.leftChild == node){
+					return node.parent.data;
 				}
-				return par.data;
+				else{
+					if(node.rightChild != null)
+						return findNextNode(node);
+					else{
+						Node current = node;
+						Node grandPar = node.parent;
+						while(grandPar != null && grandPar.rightChild == current){
+							current = grandPar;
+							if(grandPar.parent == null)
+								return -1;
+							else
+								grandPar = grandPar.parent;
+						}
+						return grandPar.data;
+					}
+				}
 			}
-			else{
+			else
 				return -1;
-			}
 		}
 	}
 
@@ -262,20 +252,12 @@ public class LearningTrees {
 		//lt.root = lt.createBST(arr, 0, arr.length-1);
 		//lt.inorderTraversal(lt.root);
 
-		lt.insert(20);
-		lt.insert(14);
-		lt.insert(50);
-		lt.insert(12);
-		lt.insert(17);
-		lt.insert(48);
-		lt.insert(76);
-		lt.insert(43);
-		lt.insert(30);
-		lt.insert(19);
-		lt.insert(90);
+		int[] input = {20,14,50,12,17,48,76,43,30,19,90};
+		for(int i=0; i<input.length; i++)
+			lt.insert(input[i]);
 
-		lt.inorderTraversal(lt.root);
-		System.out.println("20: "+ lt.findNextNode(20));
+		for(int i=0; i<input.length; i++)
+			System.out.println(input[i]+": "+ lt.findNextNode(lt.search(input[i])));
 		//lt.nodesAtLevels(lt.root, lt.findHeight(lt.root));
 		//		System.out.println(lt.search(30));
 		//		System.out.println("-----------------");
