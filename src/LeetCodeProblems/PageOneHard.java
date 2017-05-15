@@ -1,7 +1,7 @@
 /**
  * 
  */
-package HardProblems;
+package LeetCodeProblems;
 
 /**
  * @author TriptiAshishUpadhyay
