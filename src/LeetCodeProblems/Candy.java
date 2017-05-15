@@ -25,7 +25,7 @@ public class Candy {
 			if(ratings[i]>ratings[i+1])
 				r2l[i] = r2l[i+1]+1;
 		}
-		for(int i=1; i<ratings.length; i++){
+		for(int i=0; i<ratings.length; i++){
 			max += Math.max(l2r[i], r2l[i]); 
 		}
 		return max;
