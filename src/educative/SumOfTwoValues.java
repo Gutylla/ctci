@@ -61,7 +61,7 @@ public class SumOfTwoValues {
 	public static void main(String[] args) {
 		SumOfTwoValues obj = new SumOfTwoValues();
 		int[] in = {1,2,2,2,3,4,5,7,7,7,14,15};
-		int val = 21;
+		int val = 45;
 		obj.findSumOfTwoSortedVersion(in, val);
 	}
 

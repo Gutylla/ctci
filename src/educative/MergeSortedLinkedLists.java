@@ -10,19 +10,35 @@ package educative;
 public class MergeSortedLinkedLists {
 
 	public LinkedListNode performMerge(LinkedListNode head1, LinkedListNode head2){
+		if(head1 == null && head2 == null) return null;
+		if(head1 == null) return head2;
+		if(head2 == null) return head1;
+		
 		LinkedListNode mergedHead = null;
+		if(head1.data <= head2.data){
+			mergedHead = head1;
+			head1 = head1.next;
+		}
+		else{
+			mergedHead = head2;
+			head2 = head2.next;
+		}
+		
+		LinkedListNode mergedTail = mergedHead;
 		while(head1 != null && head2 != null){
+			LinkedListNode temp = null;
 			if(head1.data <= head2.data){
-				mergedHead = head1;
+				temp = head1;
 				head1 = head1.next;
 			}
 			else{
-				mergedHead = head2;
+				temp = head2;
 				head2 = head2.next;
 			}
-			mergedHead = mergedHead.next;
+			mergedTail.next = temp;
+			mergedTail = mergedTail.next;
 		}
-		LinkedListNode mergedTail = mergedHead;
+		
 		return mergedHead;
 	}
 	/**
