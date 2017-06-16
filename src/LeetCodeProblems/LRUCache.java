@@ -3,9 +3,7 @@
  */
 package LeetCodeProblems;
 
-import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.Queue;
 
 /**
  * @author TriptiAshishUpadhyay
@@ -68,7 +66,7 @@ public class LRUCache {
 		cache.get(2);       // returns -1 (not found)
 		cache.get(3);       // returns 3
 		cache.get(4);
-		
+
 		/*	keyhash		  valuehash
 		 * 2	3			3	1
 		 * 3	2			2	2
