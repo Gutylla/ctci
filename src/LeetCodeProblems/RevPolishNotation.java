@@ -41,11 +41,45 @@ public class RevPolishNotation {
 		}
 	}
 
+	public String infixToPostfix(String exp){
+		String post = "";
+		Stack<Character> operators = new Stack<>();
+		for(int i=0; i<exp.length(); i++){
+			if(exp.charAt(i) == '+' || exp.charAt(i) == '-' || exp.charAt(i) == '*' || exp.charAt(i) == '/'){
+				while(!operators.isEmpty() && precedenceLevel(operators.peek()) > precedenceLevel(exp.charAt(i)))
+					post += operators.pop();
+				operators.push(exp.charAt(i));
+			}
+			else{
+				post += exp.charAt(i);
+			}
+		}
+		while(!operators.isEmpty()){
+			post += operators.pop();
+		}
+		return post;
+	}
+
+	public int precedenceLevel(char c){
+		switch(c){
+		case '*':
+			return 1;
+		case '/':
+			return 2;
+		case '+':
+		case '-':
+			return 0;	
+		default:
+			return -1;
+		}
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String[] tokens = {"18"};
 		RevPolishNotation obj = new RevPolishNotation();
 		System.out.println(obj.evalRPN(tokens));
+		System.out.println(obj.infixToPostfix("a+b*c+d"));
 	}
 
 }

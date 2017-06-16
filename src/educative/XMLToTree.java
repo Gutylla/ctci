@@ -58,7 +58,8 @@ public class XMLToTree {
 }
 
 class TreeNode{
-	TreeNode child;
+	TreeNode leftchild;
+	TreeNode rightchild;
 	String data;
 
 	/**
@@ -66,7 +67,8 @@ class TreeNode{
 	 */
 	public TreeNode(String data) {
 		// TODO Auto-generated constructor stub
-		child = null;
+		this.leftchild = null;
+		this.rightchild = null;
 		this.data = data;
 	}
 }

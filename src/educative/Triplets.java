@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Triplets {
 
 	public void findTriplets(int[] arr){
-		//assumption: arr is sorted, if not change method to sort in ascending order
+		//assumption: arr is sorted, if not change method to add sorting in ascending order
 		if(arr == null || arr.length < 3) 
 			return;
 

@@ -7,6 +7,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
+import java.util.Stack;
+
 
 /**
  * @author TriptiAshishUpadhyay
@@ -138,6 +140,20 @@ public class LearningTrees {
 		}
 	}
 
+	public void inorderIterative(Node root){
+		Node current = root;
+		Stack<Node> stack = new Stack<>();
+		while(!stack.isEmpty() || current != null){
+			if(root != null){
+				stack.push(current);
+				current = current.leftChild;
+				continue;
+			}
+			System.out.println(stack.peek().data);
+			current = stack.pop().rightChild;
+		}
+	}
+
 	//left tree, right tree, root
 	public void postorderTraversal(Node current){
 		if(null!= current){
@@ -262,18 +278,41 @@ public class LearningTrees {
 		}
 	}
 
+	public void levelOrder(Node root){
+		if(root == null) return;
+		Queue<Node> curr = new ArrayDeque<Node>();
+		Queue<Node> next = new ArrayDeque<Node>();
+
+		curr.add(root);
+
+		while(!curr.isEmpty()){
+			Node temp = curr.poll();
+			if(temp.leftChild != null)
+				next.add(temp.leftChild);
+			if(temp.rightChild != null)
+				next.add(temp.rightChild);
+			System.out.println(temp.data);
+			if(curr.isEmpty()){
+				curr = next;
+				next = new ArrayDeque<Node>();
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		LearningTrees lt = new LearningTrees();
 
-		//int[] arr = {1,2,3,4,5,6,7};
-		//lt.root = lt.createBST(arr, 0, arr.length-1);
+		int[] arr = {1,2,3,4,5,6,7};
+		lt.root = lt.createBST(arr, 0, arr.length-1);
 		//lt.inorderTraversal(lt.root);
+		//System.out.println("--------------");
+		lt.levelOrder(lt.root);
 
-		int[] input = {20,14,50,12,17,48};
-		for(int i=0; i<input.length; i++)
-			lt.insert(input[i]);
-
-		lt.printPossibleInputs();
+		//		int[] input = {20,14,50,12,17,48};
+		//		for(int i=0; i<input.length; i++)
+		//			lt.insert(input[i]);
+		//
+		//		lt.printPossibleInputs();
 
 		//		for(int i=0; i<input.length; i++)
 		//			System.out.println(input[i]+": "+ lt.findNextNode(lt.search(input[i])));

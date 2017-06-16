@@ -6,7 +6,7 @@ package chapter3;
 import java.util.Stack;
 
 /**
- * @author Tripti Ashiish Upadhyay
+ * @author Tripti Ashish Upadhyay
  *
  */
 public class MyQueueUsingStacks {
