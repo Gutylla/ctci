@@ -10,8 +10,6 @@ package educative;
 public class StringSegmentation {
 	
 	public boolean segmented(String[] dic, String str){
-		boolean flag = false;
-		int dicLen = dic.length;
 		int strLen = str.length();
 		int start = 0;
 		int end = strLen;
@@ -19,15 +17,17 @@ public class StringSegmentation {
 			String word1 = str.substring(start, i+1);
 			String word2 = str.substring(i+1, end);
 			if(hasWord(dic, word1)){
-				flag = flag && segmented(dic, word2);
+				if(word2.length() == 0 || hasWord(dic, word2))
+					return true;
+				return segmented(dic, word2);
 			}
 		}
-		return flag;
+		return false;
 	}
 	
 	private boolean hasWord(String[] dic, String word){
 		for(int i=0; i<dic.length; i++){
-			if(dic[i] == word)
+			if(dic[i].equals(word))
 				return true;
 		}
 		return false;
@@ -37,7 +37,8 @@ public class StringSegmentation {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		StringSegmentation obj = new StringSegmentation();
+		System.out.println(obj.segmented(new String[]{"apple","peer","pie"}, "applepie"));
 	}
 
 }

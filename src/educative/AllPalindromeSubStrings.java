@@ -29,7 +29,7 @@ public class AllPalindromeSubStrings {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AllPalindromeSubStrings obj = new AllPalindromeSubStrings();
-		obj.findAllPalindromes("aabbbaa");
+		obj.findAllPalindromes("abbab");
 	}
 
 }
