@@ -23,14 +23,14 @@ public class LearningHeap {
 	}
 
 	public static void main(String[] args) {
-		Heap myheap = new Heap(10);
-		int[] a = {30,60,29,50,68,79};
-		for(int i=0; i<a.length; i++)
-		myheap.insert(a[i]);
-		for(int i =0; i<6; i++){
-			System.out.println(myheap.remove().data);
-		}
-		int[] input = {-4,2,-5,1,-1,6};
+//		Heap myheap = new Heap(10);
+//		int[] a = {30,60,29,50,68,79};
+//		for(int i=0; i<a.length; i++)
+//		myheap.insert(a[i]);
+//		for(int i =0; i<6; i++){
+//			System.out.println(myheap.remove().data);
+//		}
+		int[] input = {1,3,-1,-3,5,3,6,7};
 		int window = 3;
 		LearningHeap obj = new LearningHeap();
 		obj.maxInSlidingWindow(input, window);

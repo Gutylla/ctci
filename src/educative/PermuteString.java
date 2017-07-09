@@ -32,7 +32,7 @@ public class PermuteString {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PermuteString obj = new PermuteString();
-		String input = "abc";
+		String input = "AAB";
 		obj.permute(input, "", new ArrayList<String>());
 	}
 

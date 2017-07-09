@@ -3,10 +3,6 @@
  */
 package educative;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author TriptiAshishUpadhyay
@@ -15,21 +11,33 @@ import java.util.regex.Pattern;
 public class RegularExpression {
 
 	public boolean match(String in, String patt){
-		for(int i=0, p=0; i<in.length() && p<patt.length();){
+		boolean out = true;
+		int i=0, p=0;
+		while(i<in.length() && p<patt.length()){
 			if(patt.charAt(p) == in.charAt(i) || patt.charAt(p) == '.'){
 				p++;
 				i++;
+				out &= true;
 			}
 			else if(patt.charAt(p) == '*'){
 				char prevPatt = patt.charAt(p-1);
-				while(in.charAt(i) == prevPatt)
-					i++;
+				while(i<in.length()){
+					if(prevPatt == '.' || in.charAt(i) == prevPatt){
+						i++;
+						out &= true;
+					}
+					else{
+						out &= false;
+					}
+				}
 				p++;
 			}
 			else
-				return false;
+				out &= false;
 		}
-		return true;
+		return out;
+
+
 
 		//		Pattern pattern = Pattern.compile(patt);
 		//		Matcher matcher = pattern.matcher(in);
@@ -41,7 +49,7 @@ public class RegularExpression {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		RegularExpression obj = new RegularExpression();
-		System.out.println(obj.match("aabbbbbcdda", "a*b*c*dda"));
+		System.out.println(obj.match("aa", ".*"));
 	}
 
 }
