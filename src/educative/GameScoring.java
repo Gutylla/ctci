@@ -31,18 +31,18 @@ public class GameScoring {
 	}
 
 	public int[][] rotateImage(int[][] a) {
-		if(a == null || a.length<1)
-			return a;
-		int n = a.length;
-		for(int r=0; r<=n/2; r++){
-			for(int c=0; c<=n/2; c++){
-				int temp = a[r][c];
-				a[r][c] = a[n-r-1][c];
-				a[n-r-1][c] = a[n-r-1][n-c-1];
-				a[n-r-1][n-c-1] = a[r][n-c-1];
-				a[r][n-c-1] = temp;
-			}
-		}
+		 if(a == null || a.length<1)
+		        return a;
+		    int n = a.length;
+		    for(int r=0; r<n/2; r++){
+			        for(int c=0; c<Math.ceil(((double) n) / 2.); c++){
+			            int temp = a[r][c];
+			            a[r][c] = a[n-c-1][r];
+			            a[n-c-1][r] = a[n-r-1][n-c-1];
+			            a[n-r-1][n-c-1] = a[c][n-r-1];
+			            a[c][n-r-1] = temp;
+			        }
+			    }
 		return a;
 	}
 
@@ -126,31 +126,33 @@ public class GameScoring {
 		// TODO Auto-generated method stub
 		GameScoring obj = new GameScoring();
 
-		char[][] solution = {{'O', '0'},
-				{'M', '1'},
-				{'Y', '2'},
-				{'E', '5'},
-				{'N', '6'},
-				{'D', '7'},
-				{'R', '8'},
-				{'S', '9'}};
-		obj.isCryptSolution(new String[]{"SEND","MORE", "MONEY"}, solution);
+//		char[][] solution = {{'O', '0'},
+//				{'M', '1'},
+//				{'Y', '2'},
+//				{'E', '5'},
+//				{'N', '6'},
+//				{'D', '7'},
+//				{'R', '8'},
+//				{'S', '9'}};
+//		obj.isCryptSolution(new String[]{"SEND","MORE", "MONEY"}, solution);
+//
+//		char[][] a = {{'.', '.', '.', '1', '4', '.', '.', '2', '.'},
+//				{'.', '.', '6', '.', '.', '.', '.', '.', '.'},
+//				{'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+//				{'.', '.', '1', '.', '.', '.', '.', '.', '.'},
+//				{'.', '6', '7', '.', '.', '.', '.', '.', '9'},
+//				{'.', '.', '.', '.', '.', '.', '8', '1', '.'},
+//				{'.', '3', '.', '.', '.', '.', '.', '.', '6'},
+//				{'.', '.', '.', '.', '.', '7', '.', '.', '.'},
+//				{'.', '.', '.', '5', '.', '.', '.', '7', '.'}};
+//
+//		obj.sudoku2(a);
+		
+		int[][] a = {{1,2},{3,4}};
+		obj.rotateImage(a);
 
-		char[][] a = {{'.', '.', '.', '1', '4', '.', '.', '2', '.'},
-				{'.', '.', '6', '.', '.', '.', '.', '.', '.'},
-				{'.', '.', '.', '.', '.', '.', '.', '.', '.'},
-				{'.', '.', '1', '.', '.', '.', '.', '.', '.'},
-				{'.', '6', '7', '.', '.', '.', '.', '.', '9'},
-				{'.', '.', '.', '.', '.', '.', '8', '1', '.'},
-				{'.', '3', '.', '.', '.', '.', '.', '.', '6'},
-				{'.', '.', '.', '.', '.', '7', '.', '.', '.'},
-				{'.', '.', '.', '5', '.', '.', '.', '7', '.'}};
-
-		obj.sudoku2(a);
-		//obj.rotateImage(a);
-
-		obj.method("abacabad");
-		obj.scoreWays(new int[]{1,2,3}, 5, 0, 0);
+//		obj.method("abacabad");
+//		obj.scoreWays(new int[]{1,2,3}, 5, 0, 0);
 	}
 
 }
