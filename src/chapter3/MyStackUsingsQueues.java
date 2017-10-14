@@ -7,8 +7,8 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
- * @author TriptiAshishUpadhyay
- *
+ * @author Tripti Bishnoi
+ * class to create a stack using queues
  */
 public class MyStackUsingsQueues {
 

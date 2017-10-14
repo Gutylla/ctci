@@ -36,12 +36,6 @@ public class RegularExpression {
 				out &= false;
 		}
 		return out;
-
-
-
-		//		Pattern pattern = Pattern.compile(patt);
-		//		Matcher matcher = pattern.matcher(in);
-		//		return matcher.matches();
 	}
 	/**
 	 * @param args
@@ -49,7 +43,7 @@ public class RegularExpression {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		RegularExpression obj = new RegularExpression();
-		System.out.println(obj.match("aa", ".*"));
+		System.out.println(obj.match("aaaaab", ".b"));
 	}
 
 }
